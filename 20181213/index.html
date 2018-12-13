@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="input">
+            <input type="text" v-model='newThing'>
+            <button type="submit" @click='add'>添加</button>
+            <button @click='query'>查询</button>
+        </div>
+        <div class="figure">
+            <ul>
+                <li v-for='item in items' :key='item.id'>
+                    {{item.dosomething}}
+                    <button @click='del(item.id)'>删除</button>
+                    <button @click='update(item)'>修改</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.js"></script>
+    <script>
+        let id = 1
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                items: [],
+                newThing: ''
+            },
+            mounted() {
+                axios.get('/php/query.php').then(({ data }) => {
+                    this.items = data
+                })
+            },
+            methods: {
+                add: function () {
+                    axios.get('/php/insert.php?dosomething=' + this.newThing).then(res => {
+                        this.items.push({
+                            id: res.data.id,
+                            dosomething: this.newThing
+                        })
+                    })
+                },
+                del: function (id) {
+                    const newDoSomething = [];
+                    for (let index = 0; index < this.items.length; index++) {
+                        if (this.items[index].id != id) {
+                            newDoSomething.push(this.items[index])
+                        }
+                    }
+                    this.items = newDoSomething
+                    axios.get('/php/del.php?id=' + id)
+                },
+                query: function () {
+                    axios.get('/php/query.php').then(({ data }) => {
+                        this.items = data
+                    })
+                },
+                update:function(item) {
+                    item.dosomething = prompt('你想修改成什么?')
+                    axios.get('/php/update.php?id='+item.id+'&dosomething='+item.dosomething)
+                    console.log(item)
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
