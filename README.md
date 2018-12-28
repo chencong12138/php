@@ -53,4 +53,11 @@
 - for foreach list,each 遍历数组(循环数字)
 ####日期函数
 - 时间戳：格林威治时间1970年1月1日零分零秒-现在的秒数
-- df
+### mysql
+- crete table table_name（name varchar(222))创建表
+- drop table table_name删除表单
+- alter table table_name change name1 name2 varchar(32);修改表的字段
+- alter table table_name drop name;删除表的字段
+- alter table table_name add name varchar(32) after name1/first;添加表的字段
+- alter table table_name1 rename table_name2;修改表的名字
+- 
