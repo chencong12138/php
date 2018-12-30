@@ -60,4 +60,4 @@
 - alter table table_name drop name;删除表的字段
 - alter table table_name add name varchar(32) after name1/first;添加表的字段
 - alter table table_name1 rename table_name2;修改表的名字
-- 
+- hhh
